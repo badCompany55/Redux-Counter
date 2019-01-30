@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {increment, decrement} from '../actions';
+import {increment, decrement, incrementCount} from '../actions';
 
 class Counter extends Component {
   incrementIfOdd = () => {
+    this.props.increment(this.props.counter);
+    if (this.props.counter % 2 !== 0) {
+      this.props.incrementCount(this.props.count);
+    }
+
     // Stretch Problem: Implement an increment function that
     // only increments if the counter value is odd
   };
@@ -19,17 +24,9 @@ class Counter extends Component {
     // should decrement or increment accordingly
     return (
       <p>
-        Clicked: {this.props.count} times
-        {console.log(this.props.count)}
-        <button
-          onClick={() => {
-            this.props.increment(this.props.count);
-            console.log('clicked');
-            console.log(this.props.increment);
-            console.log(this.props.count);
-          }}>
-          +
-        </button>
+        <p>Clicked: {this.props.count} times</p>
+        <p>Counter: {this.props.counter - 1}</p>
+        <button onClick={this.incrementIfOdd}>+</button>
         <button onClick={() => this.props.decrement(this.props.count)}>
           -
         </button>
@@ -55,6 +52,7 @@ class Counter extends Component {
 const mapStateToProps = state => {
   return {
     count: state.count,
+    counter: state.counter,
   };
 };
 
@@ -65,5 +63,5 @@ const mapStateToProps = state => {
 // makes itself known to this component.
 export default connect(
   mapStateToProps,
-  {increment, decrement},
+  {increment, decrement, incrementCount},
 )(Counter);
