@@ -3,10 +3,15 @@ import {connect} from 'react-redux';
 import {increment, decrement, incrementCount} from '../actions';
 
 class Counter extends Component {
+  timeout = () => {
+    setTimeout(() => {
+      this.props.incrementCount(this.props.count);
+    }, 1000);
+  };
   incrementIfOdd = () => {
     this.props.increment(this.props.counter);
     if (this.props.counter % 2 !== 0) {
-      this.props.incrementCount(this.props.count);
+      this.timeout();
     }
 
     // Stretch Problem: Implement an increment function that
